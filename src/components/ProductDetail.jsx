@@ -12,6 +12,13 @@ import spinner from "../assets/spinner.gif";
 const ProductDetail = () => {
   const { shareableId } = useParams();
   const [fetchedStatus, setFetchedStatus] = useState([]);
+  const [statusName,setStatusName] = useState([
+    "Order Confirmed",
+    "Shipped",
+    "Out For Delivery",
+    "Delivered"
+
+  ])
   const orderStatus = fetchedStatus;
   const [isCopied, setCopied] = useClipboard(shareableId, {
     successDuration: 1000,
@@ -113,15 +120,20 @@ const ProductDetail = () => {
               alt={name}
             />
             <div>
-                <ul className="steps">
-                  <li className="step step-primary">Order Confirmed</li>
-                  <li className="step step-primary">Shipped</li>
-                  <li className="step">Out For Delivery</li>
-                  <li className="step">Delivered</li>
+                <ul className="steps font-medium">
+                  {
+                    statusName.map((item,index) => {
+                      const statusLength = orderStatus.length;
+                      return (
+                        <li className={`step ${index < statusLength  ? "step-info " : ""}`} key={index}>{item}</li>
+                      )
+                    })
+
+                  }
                 </ul>
 
               <br />
-              <p className="font-medium relative  text-[#0a0a0a] border-2 border-red-600">
+              <p className="font-medium relative mt-3  text-[#0a0a0a] ">
                 Package Name : <br />{" "}
                 <span className="font-normal text-xl">{name}</span>{" "}
               </p>
