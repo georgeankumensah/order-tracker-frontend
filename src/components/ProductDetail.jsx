@@ -24,7 +24,7 @@ const ProductDetail = () => {
     successDuration: 1000,
   });
 
-  // yTknS4TqO
+  // GwAm61LKE
   const [isLoading, setIsLoading] = useState(false);
   const url = "https://goldordertracker.onrender.com";
   const dispatch = useDispatch();
@@ -36,11 +36,17 @@ const ProductDetail = () => {
     _id,
     qty,
     status,
-
+    currentWarehouse,
+    expectedArrivalTime,
+    createdAt,
     otherInformation,
     details,
   } = order;
 
+  const formattedOrderDate = createdAt ? new Date(createdAt).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : "UNKNOWN";
+  const formattedArrivalDate = expectedArrivalTime ? new Date(expectedArrivalTime).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' }) : "UNKNOWN";
+
+  // mE6Z6YtWz
   console.log(order);
   console.log(shareableId);
 
@@ -84,7 +90,7 @@ const ProductDetail = () => {
   }, [shareableId]);
 
   return (
-    <div className="mx-[6rem] mt-[2rem]">
+    <div className="px-[6rem] pt-[2rem] bg-white ">
       {isLoading && <Loader />}
       <div className="flex justify-between">
         <div>
@@ -92,8 +98,8 @@ const ProductDetail = () => {
             Order ID : {_id}
           </h1>
           <div className="flex items-center gap-[1rem]">
-            <p className="font-medium text-[#0a0a0a]">Order date : </p>
-            <p className=" font-medium text-[#0a0a0a]">Estimated delivery : </p>
+            <p className="font-medium text-[#0a0a0a] mr-2">Order date : {formattedOrderDate}</p>
+            <p className=" font-medium  text-green-500">Estimated delivery : {formattedArrivalDate || " UNKNOWN"} </p>
           </div>
         </div>
         <button onClick={setCopied} className="font-medium">
@@ -137,23 +143,59 @@ const ProductDetail = () => {
                 Package Name : <br />{" "}
                 <span className="font-normal text-xl">{name}</span>{" "}
               </p>
+              <br />
+              <p className="font-medium text-[#0a0a0a]">Quantity : <span className="font-normal text-sm">{qty}</span></p>
               {destination && (
                 <>
-                  <p>{destination.to}</p>
-                  <p>{destination.from}</p>
+                  <p  className="font-medium relative mt-3  text-[#0a0a0a] ">From :  <span className="font-normal text-sm">{destination.from}</span></p>
+                  <p  className="font-medium relative mt-3  text-[#0a0a0a] ">To :  <span className="font-normal text-sm">{destination.to}</span></p>
                 </>
               )}
               <br />
               <p className="font-medium text-[#0a0a0a]">
-                Package Contains : <br />
-                {details}
+                Package Contains (Package details) : <br />
+                <span className="font-normal text-sm">{details}</span>
+                
               </p>
               <br />
-              <p className="font-medium text-[#0a0a0a]">Quantity : {qty}</p>
-              <p className="font-medium text-[#0a0a0a]">Status : </p>
-              {/* <p>{warehouses}</p> */}
+              <p className="font-medium text-[#0a0a0a] ">Currently At : <span className="font-normal text-sm">{currentWarehouse || "UNKNOWN"}</span> </p>
+              <br />
+              <p className="font-medium text-[#0a0a0a] mb-[60px]">
+                Important Information : <br />
+                {Object.entries(otherInformation).map(([key, value]) => (
+                  <span key={key}>
+                    {key}: <span className="font-normal text-sm">{value}</span>
+                    <br />
+                  </span>
+                ))}
+              </p>
             </div>
+            <div className="flex flex-col   border-l-[3px] pl-[2rem] border-[#c7c7c7]">
+          <h1 className="text-2xl  font-semibold">History</h1>
+          <hr className="h-2 mt-2" />
+          <br />
+          <ol>
+          {status && status.map((item, index) => {
+            const arrivalDate = new Date(item.arrivalDate);
+            const today = new Date();
+            const diffTime = Math.abs(today - arrivalDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const formattedDate = `${diffDays} days ago`;
+            return (
+              <li key={index}>
+                <div className="flex items-center gap-[1rem]">
+                  <p className="font-normal text-[#0a0a0a]">
+                    {item.statusTitle} -
+                  </p>
+                  <p className="font-normal text-sm">{formattedDate}</p>
+                </div>
+              </li>
+            );
+          })}
+          </ol></div>
           </div>
+             
+             
         </>
       )}
     </div>
