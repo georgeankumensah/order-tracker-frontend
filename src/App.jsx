@@ -10,9 +10,12 @@ import ProductDetail from "./components/ProductDetail";
 import ProductListing from "./components/ProductListing";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
+import { useEffect } from "react";
+import axios from "axios";
 
 function App() {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated); // Modify this based on your Redux state structure
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
 
   console.log(isAuthenticated);
   return (
@@ -32,6 +35,7 @@ function App() {
           element={
             isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />
           }
+          // element={<Dashboard />}
         />
       </Routes>
     </>

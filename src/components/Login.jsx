@@ -19,14 +19,14 @@ const Login = () => {
     const user = useSelector((state) => state.auth);
 
 
-    const url = "https://goldordertracker.onrender.com";
+    const url = "http://localhost:3000";
     const navigate = useNavigate();
 
 
 
     const handleLogin = async () => {
         setIsLoading(true)
-        await api
+        await axios
         .post(url + "/admin/login/", { username, password })
         .then((res) => {
           console.log(res.data);
