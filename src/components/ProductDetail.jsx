@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { selectedProduct } from "../redux/actions/productActions";
 import useClipboard from "react-use-clipboard";
 import { AiOutlineCopy } from "react-icons/ai";
-import { Chrono } from "react-chrono";
 
 import spinner from "../assets/spinner.gif";
 
