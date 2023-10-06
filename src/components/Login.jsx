@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import spinner from "../assets/spinner.gif";
 
 const Login = () => {
+
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -113,5 +114,7 @@ const Login = () => {
 			</div>
 		</div>
 	);
+
+  
 };
 export default Login;

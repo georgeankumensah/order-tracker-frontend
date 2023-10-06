@@ -9,6 +9,7 @@ import ProductDetail from "./components/ProductDetail";
 import ProductListing from "./components/ProductListing";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
+
 import api from "./api/api";
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
 			)}
 		</>
 	);
+
 }
 
 export default App;
