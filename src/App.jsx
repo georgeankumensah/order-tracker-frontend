@@ -3,19 +3,21 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import { Route, Routes, Navigate } from "react-router-dom";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "./redux/actions/authActions";
 import ProductDetail from "./components/ProductDetail";
 import ProductListing from "./components/ProductListing";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
+import ManageAdmins from "./components/ManageAdmins";
 
 import api from "./api/api";
 
 function App() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const { isAuthenticated } = useSelector((state) => state.auth); // Modify this based on your Redux state structure
+	const { isAuthenticated,user } = useSelector((state) => state.auth); // Modify this based on your Redux state structure
 	const dispatch = useDispatch();
 	// Initial dispatch
 	// Fetch user information on page load
@@ -24,7 +26,8 @@ function App() {
 		(async function () {
 			try {
 				setIsLoading(true);
-				const { data } = await api.get("/user");
+				const { data } = await api.get("/user/");
+				console.log(data);
 
 				dispatch(loginSuccess(data));
 				setIsLoading(false);
@@ -42,12 +45,16 @@ function App() {
 			{isLoading && <p>Loading component here</p>}
 			{!isLoading && (
 				<>
-					<Header />
 					<Routes>
+						{/* public routes */}
 						<Route exact path="/" element={<ProductListing />} />
 						<Route exact path="/packages/:shareableId" element={<ProductDetail />} />
-						<Route exact path="/login" element={<Login />} />
+					
+						{/* protected routes */}
+						<Route exact path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" replace />} />
 						<Route exact path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />} />
+						<Route exact path="/admins" element={(user && user.isSuperAdmin)? <ManageAdmins /> : <Navigate to="/login" replace />} />
+						<Route exact path="*" element={<Navigate to="/" replace />} />
 					</Routes>
 				</>
 			)}

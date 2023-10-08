@@ -1,5 +1,5 @@
-// authReducer.js
-import { LOGIN_SUCCESS, LOGOUT } from '../actions/authActions';
+
+import { ActionTypes } from "../constants/actionTypes";
 
 const initialState = {
   isAuthenticated: false,
@@ -8,13 +8,13 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_SUCCESS:
+    case ActionTypes.LOGIN_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
         user: action.payload,
       };
-    case LOGOUT:
+    case ActionTypes.LOGOUT:
       return {
         ...state,
         isAuthenticated: false,

@@ -1,11 +1,10 @@
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGOUT = 'LOGOUT';
+import { ActionTypes } from "../constants/actionTypes";
 
 export const loginSuccess = (user) => ({
-  type: LOGIN_SUCCESS,
+  type: ActionTypes.LOGIN_SUCCESS,
   payload: user,
 });
 
 export const logout = () => ({
-  type: LOGOUT,
+  type: ActionTypes.LOGOUT,
 });

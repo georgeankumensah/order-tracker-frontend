@@ -8,16 +8,17 @@ import "react-toastify/dist/ReactToastify.css";
 import deliveryGuy from "../assets/delivery-guy.png";
 import spinner from "../assets/spinner.gif";
 
+import api from "../api/api";
 import { selectedProduct } from "../redux/actions/productActions";
 import ProductComponent from "./ProductComponent";
 
 import { getTrackingDetails } from "../../utils";
+import Header from "./Header";
 
 const ProductListing = () => {
 	const dispatch = useDispatch();
 	const [trackingId, setTrackingId] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
-	const url = "http://localhost:8000";
 	const navigate = useNavigate();
 
 	const Loader = () => {
@@ -36,8 +37,8 @@ const ProductListing = () => {
 		setIsLoading(true);
 		// H77ca4fJh
 
-		await axios
-			.get(url + "/orders/shareable/" + trackingId)
+		await api
+			.get("/orders/shareable/" + trackingId)
 			.then((res) => {
 				console.log(res.data);
 				setIsLoading(false);
@@ -79,6 +80,7 @@ const ProductListing = () => {
 
 	return (
 		<div className=" bg-[#f7f7f7]">
+			<Header/>
 			<ToastContainer position="bottom-left" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" />
 			<div className="flex items-center justify-center">
 				<div className="flex flex-col pl-[2rem] gap-[1rem] relative">
