@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://goldordertracker.onrender.com/", // Replace with your backend server URL
+        target: "http://localhost:8000/", // Replace with your backend server URL
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },

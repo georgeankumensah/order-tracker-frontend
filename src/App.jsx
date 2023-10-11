@@ -26,10 +26,9 @@ function App() {
 		(async function () {
 			try {
 				setIsLoading(true);
-				const { data } = await api.get("/user/").then(()=>
-					{setIsLoading(false);}
-				);
+				const { data } = await api.get("/user")
 				console.log(data);
+				setIsLoading(false);
 
 				dispatch(loginSuccess(data));
 				
