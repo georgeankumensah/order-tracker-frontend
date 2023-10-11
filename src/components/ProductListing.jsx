@@ -12,7 +12,6 @@ import api from "../api/api";
 import { selectedProduct } from "../redux/actions/productActions";
 import ProductComponent from "./ProductComponent";
 
-import { getTrackingDetails } from "../../utils";
 import Header from "./Header";
 
 const ProductListing = () => {
@@ -38,7 +37,7 @@ const ProductListing = () => {
 		// H77ca4fJh
 
 		await api
-			.get("/orders/shareable/" + trackingId)
+			.get("/order/shareable/" + trackingId)
 			.then((res) => {
 				console.log(res.data);
 				setIsLoading(false);

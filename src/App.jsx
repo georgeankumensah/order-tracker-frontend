@@ -15,8 +15,8 @@ import ManageAdmins from "./components/ManageAdmins";
 import api from "./api/api";
 
 function App() {
-	const [isLoading, setIsLoading] = useState(true);
-	const [error, setError] = useState(null);
+	const [isLoading, setIsLoading] = useState(null);
+	const [error, setError] = useState(false);
 	const { isAuthenticated,user } = useSelector((state) => state.auth); // Modify this based on your Redux state structure
 	const dispatch = useDispatch();
 	// Initial dispatch
@@ -26,11 +26,13 @@ function App() {
 		(async function () {
 			try {
 				setIsLoading(true);
-				const { data } = await api.get("/user/");
+				const { data } = await api.get("/user/").then(()=>
+					{setIsLoading(false);}
+				);
 				console.log(data);
 
 				dispatch(loginSuccess(data));
-				setIsLoading(false);
+				
 				setError(null);
 			} catch (error) {
 				setIsLoading(false);
@@ -43,13 +45,15 @@ function App() {
 		<>
 			{/* You can set protected pages using error */}
 			{isLoading && <p>Loading component here</p>}
+			{/* {
+				error && <p className="py-1 text-center bg-red-500 text-white text-sm">{error}</p>
+			} */}
 			{!isLoading && (
 				<>
 					<Routes>
 						{/* public routes */}
 						<Route exact path="/" element={<ProductListing />} />
 						<Route exact path="/packages/:shareableId" element={<ProductDetail />} />
-					
 						{/* protected routes */}
 						<Route exact path="/login" element={!isAuthenticated ? <Login /> : <Navigate to="/dashboard" replace />} />
 						<Route exact path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" replace />} />

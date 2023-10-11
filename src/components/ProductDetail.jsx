@@ -96,7 +96,9 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    if (shareableId && shareableId != "") fetchOrderDetails();
+    if (shareableId && shareableId != "") {
+      fetchOrderDetails();
+    }
     console.log("updated data");
   }, [shareableId]);
 
