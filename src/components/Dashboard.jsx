@@ -72,7 +72,7 @@ const Dashboard = () => {
             onClick={() => setShowCreateOrder(true)}
             className="bg-blue-500 hover:bg-blue-700 h-fit text-white font-bold py-2 px-4 rounded"
           >
-            Create Admin
+            Create Order
           </button>
         </div>
         <hr className="mb-4" />
